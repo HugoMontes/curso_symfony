@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+  <h2>ETIQUETAS TWIG</h2>
+  <h3>Variable</h3>
+	{% set nombre="Juan" %}
+	{% set edad=25 %}
+	Nombre: {{ nombre }} <br/>
+	Edad:   {{ edad }} <br/>
+	{% set a=8 %}
+	{% set b=5 %}
+	La suma es: {{ a + b }} <br/>
+	La resta es: {{ a - b }} <br/>
+	El producto es: {{ a * b }} <br/>
+	La division es: {{ a / b }} <br/>
+
+	<h3>Condicional IF</h3>
+	{% if edad>=18 %}
+	    {{ nombre }} es Mayor de edad.
+	{% else %}
+	    {{ nombre }} es Menor de edad.
+	{% endif %}
+
+	<h3>Bucle FOR</h3>
+	Numeros:
+    {% for i in 1..10 %}
+        {{ i }},
+    {% endfor %}
+	<br/>
+	Letras:
+    {% for letra in 'a'..'z' %}
+        {{ letra }},
+    {% endfor %}
+
+  <h3>Array</h3>
+	{% set nombres=["Mateo","Marcos","Lucas","Juan"] %}
+	{% set edades=[22,13,39,51,28] %}
+	Nombres:
+	{% for n in nombres %}
+	    {{ n }},
+	{% endfor %}
+	<br/>
+	Edades:
+	{% for e in edades %}
+	    {{ e }},
+	{% endfor %}
+
+	<h3>Filtros</h3>
+	Mayuscula: {{ nombre|upper }}<br/>
+	# Nombres: {{ nombres|length }} <br/>
+  Fecha actual: {{ "now"|date("m/d/y H:m:s", "America/La_Paz") }} <br/>
+	<h3>Funciones</h3>
+	Maximo: {{ max(edades) }}<br/>
+	Minimo: {{ min(edades) }}<br/>
+	Aleatorio: {{ random() }}<br/>
+	Aleatorio 1-100: {{ random(1..100) }}<br/>
+	Numero Aleatorio: {{ random(edades) }}<br/>
+	Fruta Aleatoria: {{ random(nombres) }}<br/>
+
+	<h3>Lista de Personas</h3>
+	<table border="1">
+	<tr>
+		<th>NOMBRE</th>
+		<th>EDAD</th>
+	</tr>
+	{% for i in 0..nombres|length-1 %}
+	<tr>
+		<td>{{ nombres[i] }}</td>
+		<td>{{ edades[i] }}</td>
+	</tr>
+	{% endfor %}
+	</table>
+
+{% endblock %}

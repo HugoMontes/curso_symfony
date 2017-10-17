@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    <h1>Nuevo Estudiante</h1>
+    {# Por defecto el metodo es POST #}
+    {{ form_start(form, {'action': path('estudiante_nuevo')}) }}
+	    <div class="form-group">
+	        {{ form_label(form.nombre) }}
+	        {{ form_errors(form.nombre) }}
+	        {{ form_widget(form.nombre, {'attr':{'class':'form-control'}}) }}
+	    </div>
+	    <div class="form-group">
+	        {{ form_label(form.email) }}
+	        {{ form_errors(form.email) }}
+	        {{ form_widget(form.email, {'attr':{'class':'form-control'}}) }}
+	    </div>
+      <div class="form-group">
+	        {{ form_label(form.fechanac, 'Fecha de nacimiento') }}
+	        {{ form_errors(form.fechanac) }}
+          <div class="form-inline">
+            {{ form_widget(form.fechanac.date.year, {'attr':{'class':'form-control'}}) }}
+            {{ form_widget(form.fechanac.date.month, {'attr':{'class':'form-control'}}) }}
+  	        {{ form_widget(form.fechanac.date.day, {'attr':{'class':'form-control'}}) }}
+            {{ form_widget(form.fechanac.time.hour, {'attr':{'style':'display:none'}}) }}
+            {{ form_widget(form.fechanac.time.minute, {'attr':{'style':'display:none'}}) }}
+          </div>
+	    </div>
+	    <div class="form-group">
+	        {{ form_label(form.edad) }}
+	        {{ form_errors(form.edad) }}
+	        {{ form_widget(form.edad, {'attr':{'class':'form-control'}}) }}
+	    </div>
+	    <div class="form-group">
+	        {{ form_widget(form.guardar,{'label':'Guardar', 'attr':{'class':'btn btn-primary'}}) }}
+	    </div>
+	{{ form_end(form) }}
+{% endblock %}

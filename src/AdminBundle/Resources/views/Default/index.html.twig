@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<h1>MENU PRINCIPAL</h1>
+	<a href="{{ path('homepage') }}">1. Welcome Symfony</a><br>
+	<a href="{{ path('saludo') }}">2. Saludo</a><br>
+ 	<a href="{{ path('parametros', {'nombre':'Juan', 'edad':23, }) }}">3. Parametros</a><br>
+ 	<a href="{{ path('empleado') }}">4. Parametros por defecto</a><br>
+  <h2>Plantillas Twig</h2>
+  <a href="{{ path('twig1', {'nombre':'Juan', 'edad':23, }) }}">1. Plantilla Twig</a><br>
+  <a href="{{ path('twig2') }}">2. Etiquetas Twig</a><br>
+  <a href="{{ path('twig3') }}">3. Colecciones</a><br>
+{% endblock %}

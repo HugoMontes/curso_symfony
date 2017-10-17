@@ -1,0 +1,32 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+{% if app.session.flashBag.has('success') %}
+  <div class="alert alert-success">
+    {% for msg in app.session.flashBag.get('success') %}
+      {{ msg }}
+    {% endfor %}
+  </div>
+{% endif %}
+<h1>Lista de Estudiantes</h1>
+<a href="{{ path('estudiante_nuevo') }}" class="btn btn-primary">Nuevo Estudiante</a>
+<table class="table">
+  <tr>
+    <th>ID</th>
+    <th>NOMBRE</th>
+    <th>EMAIL</th>
+    <th>FECHA NAC</th>
+    <th>EDAD</th>
+  </tr>
+  {% if estudiantes!=null %}
+    {% for estudiante in estudiantes %}
+    <tr>
+      <td>{{ estudiante.id }}</td>
+      <td>{{ estudiante.nombre }}</td>
+      <td>{{ estudiante.email }}</td>
+      <td>{{ estudiante.fechanac|date('Y-m-d') }}</td>
+      <td>{{ estudiante.edad }}</td>
+    </tr>
+    {% endfor %}
+  {% endif %}
+</table>
+{% endblock %}

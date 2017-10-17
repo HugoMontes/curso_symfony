@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+  <h2>PERSONAS</h2>
+	<table border="1">
+	<tr>
+    <th>ID</th>
+		<th>NOMBRE</th>
+		<th>EDAD</th>
+	</tr>
+	{% for persona in personas %}
+	<tr>
+		<td>{{ persona.id }}</td>
+		<td>{{ persona.nombre }}</td>
+    <td>{{ persona.edad }}</td>
+	</tr>
+	{% endfor %}
+	</table>
+{% endblock %}
