@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 class EstudianteController extends Controller{
 
   /**
-   * @Route("/estudiante", name="estudiante_listar")
-   */
+  * @Route("/estudiante", name="estudiante_listar")
+  */
   public function indexAction(){
     // getDoctrine() devuelve objeto para manejo de servicios doctrine.
     // getManager() devuelve objeto para manejo de proceso de persistencia.
@@ -25,8 +25,8 @@ class EstudianteController extends Controller{
   }
 
   /**
-   * @Route("/estudiante/guardar/demo", name="estudiante_guardar_demo")
-   */
+  * @Route("/estudiante/guardar/demo", name="estudiante_guardar_demo")
+  */
   public function guardarDemoAction(){
     // Recuperar los datos
     $estudiante = new Estudiante();
@@ -45,9 +45,19 @@ class EstudianteController extends Controller{
 
 
   /**
-   * @Route("/estudiante/nuevo", name="estudiante_nuevo")
-   */
-  public function nuevoAction(Request $request){
+  * @Route("/estudiante/nuevo", name="estudiante_nuevo")
+  */
+  public function nuevoAction(){
+    // Metodo que pemite generar el formulario en blanco
+    $form=$this->createForm(EstudianteType::class);
+    $data['form']=$form->createView();
+    return $this->render('AdminBundle:Estudiante:nuevo.html.twig',$data);
+  }
+
+  /**
+  * @Route("/estudiante/guardar", name="estudiante_guardar")
+  */
+  public function guardarAction(Request $request){
     $estudiante=new Estudiante();
     // Se asocia el objeto estudiante con el formulario
     $form=$this->createForm(EstudianteType::class, $estudiante);
@@ -61,15 +71,13 @@ class EstudianteController extends Controller{
       $em->flush();
       // Preparar mensaje para el usuario
       $request->getSession()
-        ->getFlashBag()
-        ->add('success', 'El estudiante '.$estudiante->getNombre().' fue guardado exitosamente.');
+      ->getFlashBag()
+      ->add('success', 'El estudiante '.$estudiante->getNombre().' fue guardado exitosamente.');
       // Redireccionamos llamando a la ruta para listar estudiantes
       return $this->redirectToRoute('estudiante_listar');
     }else{
-      // Metodo que pemite generar el formulario en blanco
-      $form=$this->createForm(EstudianteType::class);
-      $data['form']=$form->createView();
-      return $this->render('AdminBundle:Estudiante:nuevo.html.twig',$data);
+      // En caso que los datos no sean validos redireccionar al formulario
+      return $this->redirectToRoute('estudiante_nuevo');
     }
   }
 }
