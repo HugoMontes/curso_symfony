@@ -50,6 +50,13 @@ class Estudiante
     private $edad;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Curso", inversedBy="estudiantes")
+     * @ORM\JoinColumn(name="curso_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $curso;
+
+
+    /**
      * Get id
      *
      * @return int
@@ -153,5 +160,29 @@ class Estudiante
     public function getEdad()
     {
         return $this->edad;
+    }
+
+    /**
+     * Set curso
+     *
+     * @param \AdminBundle\Entity\Curso $curso
+     *
+     * @return Estudiante
+     */
+    public function setCurso(\AdminBundle\Entity\Curso $curso = null)
+    {
+        $this->curso = $curso;
+
+        return $this;
+    }
+
+    /**
+     * Get curso
+     *
+     * @return \AdminBundle\Entity\Curso
+     */
+    public function getCurso()
+    {
+        return $this->curso;
     }
 }

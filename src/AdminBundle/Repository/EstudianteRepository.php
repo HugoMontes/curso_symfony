@@ -9,4 +9,60 @@ namespace AdminBundle\Repository;
  * repository methods below.
  */
 class EstudianteRepository extends \Doctrine\ORM\EntityRepository{
+
+  public function findAllOrderedByNombre(){
+		$query=$this->getEntityManager()->createQuery(
+      'SELECT e
+			 FROM AdminBundle:Estudiante e
+			 ORDER BY e.nombre ASC');
+		return $query->getResult();
+	}
+
+	public function findAllMayores(){
+		$query=$this->getEntityManager()->createQuery(
+            'SELECT e
+             FROM AdminBundle:Estudiante e
+             WHERE e.edad >= :valor
+             ORDER BY e.edad ASC')
+            ->setParameter('valor', 18);
+		return $query->getResult();
+	}
+
+	public function findAllMenores(){
+		$query=$this->createQueryBuilder('e')
+            ->where('e.edad < :valor')
+            ->setParameter('valor', 18)
+            ->orderBy('e.edad', 'DESC')
+            ->getQuery();
+		return $query->getResult();
+	}
+
+	public function findEstudiantesCurso(){
+	    $query = $this->getEntityManager()
+	        ->createQuery(
+	            'SELECT e, c FROM AdminBundle:Estudiante e
+	            JOIN e.curso c'
+	        );
+	    try {
+	        return $query->getResult();
+	    } catch (\Doctrine\ORM\NoResultException $e) {
+	        return null;
+	    }
+	}
+
+
+	public function findCursosEstudiantes(){
+	    $query = $this->getEntityManager()
+	        ->createQuery(
+	            'SELECT c, e
+	             FROM AdminBundle:Curso c
+	             JOIN c.estudiantes e'
+	        );
+	    try {
+	        return $query->getResult();
+	    } catch (\Doctrine\ORM\NoResultException $e) {
+	        return null;
+	    }
+	}
+
 }

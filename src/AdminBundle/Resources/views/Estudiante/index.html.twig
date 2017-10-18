@@ -16,6 +16,7 @@
     <th>EMAIL</th>
     <th>FECHA NAC</th>
     <th>EDAD</th>
+    <th>ACCION</th>
   </tr>
   {% if estudiantes!=null %}
     {% for estudiante in estudiantes %}
@@ -25,6 +26,17 @@
       <td>{{ estudiante.email }}</td>
       <td>{{ estudiante.fechanac|date('Y-m-d') }}</td>
       <td>{{ estudiante.edad }}</td>
+      <td>
+        <a href="{{ path('estudiante_buscar',{id:estudiante.id}) }}" title="Detalle">
+          <span class="glyphicon glyphicon-eye-open"></span>
+        </a>
+        <a href="{{ path('estudiante_editar', {id:estudiante.id}) }}" title="Editar">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </a>
+        <a href="{{ path('estudiante_eliminar', {id:estudiante.id}) }}" title="Eliminar">
+          <span class="glyphicon glyphicon-trash"></span>
+        </a>
+      </td>
     </tr>
     {% endfor %}
   {% endif %}

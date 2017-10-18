@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 class EstudianteController extends Controller{
 
   /**
-  * @Route("/estudiante", name="estudiante_listar")
-  */
+   * @Route("/estudiante", name="estudiante_listar")
+   */
   public function indexAction(){
     // getDoctrine() devuelve objeto para manejo de servicios doctrine.
     // getManager() devuelve objeto para manejo de proceso de persistencia.
@@ -25,8 +25,8 @@ class EstudianteController extends Controller{
   }
 
   /**
-  * @Route("/estudiante/guardar/demo", name="estudiante_guardar_demo")
-  */
+   * @Route("/estudiante/guardar/demo", name="estudiante_guardar_demo")
+   */
   public function guardarDemoAction(){
     // Recuperar los datos
     $estudiante = new Estudiante();
@@ -45,8 +45,8 @@ class EstudianteController extends Controller{
 
 
   /**
-  * @Route("/estudiante/nuevo", name="estudiante_nuevo")
-  */
+   * @Route("/estudiante/nuevo", name="estudiante_nuevo")
+   */
   public function nuevoAction(){
     // Metodo que pemite generar el formulario en blanco
     $form=$this->createForm(EstudianteType::class);
@@ -55,8 +55,8 @@ class EstudianteController extends Controller{
   }
 
   /**
-  * @Route("/estudiante/guardar", name="estudiante_guardar")
-  */
+   * @Route("/estudiante/guardar", name="estudiante_guardar")
+   */
   public function guardarAction(Request $request){
     $estudiante=new Estudiante();
     // Se asocia el objeto estudiante con el formulario
@@ -80,4 +80,81 @@ class EstudianteController extends Controller{
       return $this->redirectToRoute('estudiante_nuevo');
     }
   }
+
+  /**
+   * @Route("/estudiante/buscar/{id}", name="estudiante_buscar")
+   */
+  public function buscarAction($id) {
+    $repository=$this->getDoctrine()->getRepository("AdminBundle:Estudiante");
+    $estudiante = $repository->find($id);
+    // Tambien es valido
+    // $estudiante=$repository->findOneById($id);
+    $data['estudiante']=$estudiante;
+    return $this->render('AdminBundle:Estudiante:detalle.html.twig', $data);
+  }
+
+
+  /**
+   * @Route("/estudiante/editar/{id}", name="estudiante_editar")
+   */
+  public function editarAction(Request $request, $id){
+    $em = $this->getDoctrine()->getManager();
+    $estudiante = $em->getRepository('AdminBundle:Estudiante')->find($id);
+    $form = $this->createForm(EstudianteType::class, $estudiante);
+    $form->handleRequest($request);
+    if ($request->getMethod()=='POST' and $form->isValid()) {
+        // Actualizar el registro en la BD
+        $em->flush();
+        // Preparar mensaje para el usuario
+        $request->getSession()
+        ->getFlashBag()
+        ->add('success', 'El estudiante fue editado exitosamente.');
+        // Redireccionar para mostrar el listado
+        return $this->redirectToRoute('estudiante_listar');
+    }
+    // Generar un formulario con los datos de estudiante
+    $data['form']=$form->createView();
+    return $this->render("AdminBundle:Estudiante:editar.html.twig", $data);
+  }
+
+  /**
+   * @Route("/estudiante/eliminar/{id}", name="estudiante_eliminar")
+   */
+  public function eliminarAction(Request $request, $id){
+    $em=$this->getDoctrine()->getManager();
+    $estudiante=$em->getRepository("AdminBundle:Estudiante")->find($id);
+    if(!$estudiante){
+      throw $this->createNotFoundException('No existe el estudiante con id: '.$id);
+    }
+    $em->remove($estudiante);
+    $em->flush();
+    // Preparar mensaje para el usuario
+    $request->getSession()
+    ->getFlashBag()
+    ->add('success', 'El estudiante fue eliminado exitosamente.');
+    // Redireccionar para mostrar el listado
+    return $this->redirectToRoute('estudiante_listar');
+  }
+
+  /**
+   * @Route("/estudiante/consulta/{nro}", name="estudiante_consulta")
+   */
+   public function consultasAction($nro){
+     $repository=$this->getDoctrine()->getManager()->getRepository('AdminBundle:Estudiante');
+     switch($nro){
+       case 1:
+         // Todos los estudiantes ordenados por nombre
+         $estudiantes=$repository->findAllOrderedByNombre();
+         $data['estudiantes']=$estudiantes;
+         return $this->render("AdminBundle:Estudiante:consulta1.html.twig", $data);
+       break;
+       case 2:
+         // Todos los estudiantes mayores de edad
+         $estudiantes=$repository->findAllMayores();
+         $data['estudiantes']=$estudiantes;
+         return $this->render("AdminBundle:Estudiante:consulta2.html.twig", $data);
+       break;
+     }
+   }
+
 }

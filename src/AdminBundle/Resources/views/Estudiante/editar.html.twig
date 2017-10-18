@@ -1,8 +1,7 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-    <h1>Nuevo Estudiante</h1>
-    {# Por defecto el metodo es POST #}
-    {{ form_start(form, {'action': path('estudiante_guardar')}) }}
+    <h1>Editar Estudiante</h1>
+    {{ form_start(form) }}
 	    <div class="form-group">
 	        {{ form_label(form.nombre) }}
 	        {{ form_errors(form.nombre) }}

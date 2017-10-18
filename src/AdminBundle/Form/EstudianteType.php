@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class EstudianteType extends AbstractType{
   /**
@@ -19,9 +20,10 @@ class EstudianteType extends AbstractType{
     ->add('nombre')
     ->add('email', EmailType::class)
     ->add('fechanac', DateTimeType::class, array('years'=>range(date('Y')-100, date('Y'))))
-    // En caso que se desee ingresar la fecha en TextPlain
-    // ->add('fechanac', DateTimeType::class, array('widget' => 'single_text', 'date_format' => 'yyyy-MM-dd'))
     ->add('edad')
+    ->add('curso', EntityType::class, array(
+            'class'=>'AdminBundle:Curso',
+            'choice_label'=>'getDescripcion'))
     ->add('guardar', SubmitType::class);
   }
 

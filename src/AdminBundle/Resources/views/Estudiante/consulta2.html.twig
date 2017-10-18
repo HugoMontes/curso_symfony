@@ -1,0 +1,7 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+  <h1>Estudiantes mayores de edad</h1>
+  {% for e in estudiantes %}
+    {{ e.id }} - {{ e.nombre }} - {{ e.edad }} años <br/>
+  {% endfor %}
+{% endblock %}

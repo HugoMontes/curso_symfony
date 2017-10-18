@@ -1,0 +1,12 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    <h1>Detalle Estudiante</h1>
+    ID: {{ estudiante.id }} <br/>
+    Nombre: {{ estudiante.nombre }} <br/>
+    Email: {{ estudiante.email }} <br/>
+    Fecha Nac: {{ estudiante.fechanac|date('Y-m-d') }} <br/>
+    Edad: {{ estudiante.edad }} <br/>
+    {% if estudiante.curso %}
+   	  Curso inscrito: {{ estudiante.curso.descripcion }} <br/>
+    {% endif %}
+{% endblock %}

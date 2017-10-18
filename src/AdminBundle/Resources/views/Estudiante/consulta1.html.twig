@@ -1,0 +1,7 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+  <h1>Estudiantes ordenados por nombre</h1>
+  {% for e in estudiantes %}
+    {{ e.id }} - {{ e.nombre }} - {{ e.edad }} años <br/>
+  {% endfor %}
+{% endblock %}
