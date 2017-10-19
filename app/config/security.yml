@@ -3,11 +3,29 @@
 security:
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    # Indicar la entidad y la propiedad que se gestionanan
     providers:
-        in_memory:
-            memory: ~
-
+        our_db_provider:
+            entity:
+                class: AdminBundle:User
+                property: username
+    # Indicar los parametros para gestionar la autenticacion
     firewalls:
+        # Configuracion por defecto
+        default:
+            anonymous: ~
+            http_basic: ~
+            form_login:
+              # Indicar las rutas para autenticar
+              login_path: /login
+              check_path: /login_check
+              # Nombres para los campos username y password en el formulario
+              username_parameter: _username
+              username_parameter: _password
+            logout:
+              # Indicar la ruta al cerrar sesion
+              path: /logout
+              target: /login
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -22,3 +40,7 @@ security:
 
             # https://symfony.com/doc/current/security/form_login_setup.html
             #form_login: ~
+    encoders:
+        AdminBundle\Entity\User:
+            algorithm: bcrypt
+            cost: 12

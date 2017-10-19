@@ -146,13 +146,34 @@ class EstudianteController extends Controller{
          // Todos los estudiantes ordenados por nombre
          $estudiantes=$repository->findAllOrderedByNombre();
          $data['estudiantes']=$estudiantes;
+         $data['titulo']='Estudiantes ordenados por nombre';
          return $this->render("AdminBundle:Estudiante:consulta1.html.twig", $data);
        break;
        case 2:
          // Todos los estudiantes mayores de edad
          $estudiantes=$repository->findAllMayores();
          $data['estudiantes']=$estudiantes;
-         return $this->render("AdminBundle:Estudiante:consulta2.html.twig", $data);
+         $data['titulo']='Estudiantes mayores de edad';
+         return $this->render("AdminBundle:Estudiante:consulta1.html.twig", $data);
+       break;
+       case 3:
+         // Todos los estudiantes menores de edad
+         $estudiantes=$repository->findAllMenores();
+         $data['estudiantes']=$estudiantes;
+         $data['titulo']='Estudiantes menores de edad';
+         return $this->render("AdminBundle:Estudiante:consulta1.html.twig", $data);
+       break;
+       case 4:
+         // Recuperar los estudiantes y sus cursos
+         $estudiantes=$repository->findEstudiantesCurso();
+         $data['estudiantes']=$estudiantes;
+         return $this->render("AdminBundle:Estudiante:consulta4.html.twig", $data);
+       break;
+       case 5:
+         // Recuperar cursos y sus estudiantes
+         $cursos=$repository->findCursosEstudiantes();
+         $data['cursos']=$cursos;
+         return $this->render("AdminBundle:Estudiante:consulta5.html.twig", $data);
        break;
      }
    }

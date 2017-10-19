@@ -9,7 +9,7 @@ namespace AdminBundle\Repository;
  * repository methods below.
  */
 class EstudianteRepository extends \Doctrine\ORM\EntityRepository{
-
+  // Todos los estudiantes ordenados por nombre
   public function findAllOrderedByNombre(){
 		$query=$this->getEntityManager()->createQuery(
       'SELECT e
@@ -17,7 +17,7 @@ class EstudianteRepository extends \Doctrine\ORM\EntityRepository{
 			 ORDER BY e.nombre ASC');
 		return $query->getResult();
 	}
-
+   // Todos los estudiantes mayores de edad
 	public function findAllMayores(){
 		$query=$this->getEntityManager()->createQuery(
             'SELECT e
@@ -27,7 +27,7 @@ class EstudianteRepository extends \Doctrine\ORM\EntityRepository{
             ->setParameter('valor', 18);
 		return $query->getResult();
 	}
-
+  // Todos los estudiantes menores de edad
 	public function findAllMenores(){
 		$query=$this->createQueryBuilder('e')
             ->where('e.edad < :valor')
@@ -36,33 +36,30 @@ class EstudianteRepository extends \Doctrine\ORM\EntityRepository{
             ->getQuery();
 		return $query->getResult();
 	}
-
+  // Recuperar los estudiantes y sus cursos
 	public function findEstudiantesCurso(){
 	    $query = $this->getEntityManager()
 	        ->createQuery(
-	            'SELECT e, c FROM AdminBundle:Estudiante e
-	            JOIN e.curso c'
-	        );
+	            'SELECT e, c
+              FROM AdminBundle:Estudiante e
+	            JOIN e.curso c');
 	    try {
 	        return $query->getResult();
 	    } catch (\Doctrine\ORM\NoResultException $e) {
 	        return null;
 	    }
 	}
-
-
+  // Recuperar cursos y sus estudiantes
 	public function findCursosEstudiantes(){
 	    $query = $this->getEntityManager()
 	        ->createQuery(
 	            'SELECT c, e
 	             FROM AdminBundle:Curso c
-	             JOIN c.estudiantes e'
-	        );
+	             JOIN c.estudiantes e');
 	    try {
 	        return $query->getResult();
 	    } catch (\Doctrine\ORM\NoResultException $e) {
 	        return null;
 	    }
 	}
-
 }

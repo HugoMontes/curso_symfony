@@ -1,5 +1,14 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+	<h2>
+		Bienvenido
+		{% if app.user.role == 'ROLE_ADMIN' %}
+			Administrador
+		{% elseif app.user.role == 'ROLE_USER' %}
+			Usuario
+		{% endif %}
+		{{ app.user.username }}
+	</h2>
 	<h1>MENU PRINCIPAL</h1>
 	<a href="{{ path('homepage') }}">1. Welcome Symfony</a><br>
 	<a href="{{ path('saludo') }}">2. Saludo</a><br>
@@ -9,4 +18,6 @@
   <a href="{{ path('twig1', {'nombre':'Juan', 'edad':23, }) }}">1. Plantilla Twig</a><br>
   <a href="{{ path('twig2') }}">2. Etiquetas Twig</a><br>
   <a href="{{ path('twig3') }}">3. Colecciones</a><br>
+	<h2>Base de datos</h2>
+  <a href="{{ path('estudiante_listar') }}">1. Estudiantes</a><br>
 {% endblock %}
