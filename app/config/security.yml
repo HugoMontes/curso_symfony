@@ -44,3 +44,12 @@ security:
         AdminBundle\Entity\User:
             algorithm: bcrypt
             cost: 12
+    access_control:
+      # La ruta login es accesido por cualquier usuario
+      - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      # Para cualquier otra ruta se tiene que iniciar sesion
+      - { path: ^/$, roles: IS_AUTHENTICATED_FULLY }
+      # Solo el administrador puede aceder a la ruta de estudiantes
+      - { path: ^/estudiante, roles: ROLE_ADMIN }
+      # A la siguiente direccion pude ingresar admin y user
+      - { path: ^/twig/coleccion, roles: [ROLE_ADMIN, ROLE_USER]}
