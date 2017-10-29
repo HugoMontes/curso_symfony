@@ -8,7 +8,21 @@
   </div>
 {% endif %}
 <h1>Lista de Estudiantes</h1>
-<a href="{{ path('estudiante_nuevo') }}" class="btn btn-primary">Nuevo Estudiante</a>
+<div class="row">
+  <div class="col-sm-6">
+    <a href="{{ path('estudiante_nuevo') }}" class="btn btn-primary">Nuevo Estudiante</a>
+  </div>
+  <div class="col-sm-6" style="text-align: right;">
+    <form action="{{ path('estudiante_search') }}" method="post" class="form-inline">
+      <div class="form-group">
+        <label for="txt_search">Buscar</label>
+        <input type="text" class="form-control" name="txt_search" placeholder="Ingresar un nombre">
+      </div>
+      <button type="submit" class="btn btn-default">Buscar</button>
+    </form>
+  </div>
+</div>
+<br>
 <table class="table">
   <tr>
     <th>ID</th>

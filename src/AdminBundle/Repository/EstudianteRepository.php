@@ -62,4 +62,12 @@ class EstudianteRepository extends \Doctrine\ORM\EntityRepository{
 	        return null;
 	    }
 	}
+
+  // Buscar un nombre
+  public function searchByNombre($searchterm){
+    $query = $this->getEntityManager()
+        ->createQuery('SELECT e FROM AdminBundle:Estudiante e WHERE e.nombre LIKE :searchterm')
+        ->setParameter('searchterm', $searchterm);
+    return $query->getResult();
+	}
 }

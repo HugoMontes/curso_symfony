@@ -137,6 +137,19 @@ class EstudianteController extends Controller{
   }
 
   /**
+   * @Route("/estudiante/search", name="estudiante_search")
+   */
+  public function searchAction() {
+    $request = $this->getRequest();
+    $searchterm = $request->get('txt_search');
+    $repository=$this->getDoctrine()->getManager()->getRepository('AdminBundle:Estudiante');
+    $estudiantes=$repository->searchByNombre($searchterm);
+    $data['estudiantes']=$estudiantes;
+    return $this->render('AdminBundle:Estudiante:index.html.twig', $data);
+    // return new \Symfony\Component\HttpFoundation\Response($searchterm);
+  }
+
+  /**
    * @Route("/estudiante/consulta/{nro}", name="estudiante_consulta")
    */
    public function consultasAction($nro){
